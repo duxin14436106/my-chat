@@ -1,0 +1,20 @@
+{
+  "name": "echarts-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "express.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Allison",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.18.2",
+    "http": "^0.0.1-security",
+    "path": "^0.12.7"
+  },
+  "dependencies": {
+    "socket.io": "^4.6.1",
+    "socket.io-client": "^4.6.1"
+  }
+}
