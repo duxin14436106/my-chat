@@ -43,6 +43,34 @@ io.on('connection', (socket) => {
         })
     })
 
+    // 监听消息
+    socket.on('sendMsg', data => {
+        let img = ''
+        for(let i = 0; i < usersInfo.length; i++) {
+            if(usersInfo[i].name === socket.nickname) {
+                img = usersInfo[i].profile;
+            }
+        }
+        // 自己
+        socket.emit('receiveMsg', {
+            name: socket.nickname,
+            img: img,
+            msg: data.msg,
+            color: data.color,
+            type: data.type,
+            side: 'right'
+        });
+        // 除了自己的其他人
+        socket.broadcast.emit('receiveMsg', {
+            name: socket.nickname,
+            img: img,
+            msg: data.msg,
+            color: data.color,
+            type: data.type,
+            side: 'left'
+        })
+    })
+
     socket.on('disconnection', data => {
         io.emit('logout', {
             name: data.name,

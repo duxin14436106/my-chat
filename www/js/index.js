@@ -34,6 +34,47 @@ $(function() {
         alert('昵称重复，请重新设置');
         $('#name').val('')
     });
+    socket.on('receiveMsg', obj => {
+        // 发送为图片
+        if(obj.type === 'img') {
+            $('#messages').append(`
+              <li class='${obj.side}'>
+                <img src="${obj.img}">
+                <div>
+                  <span>${obj.name}</span>
+                  <p style="padding: 0;">${obj.msg}</p>
+                </div>
+              </li>
+            `);
+            $('#messages').scrollTop($('#messages')[0].scrollHeight);
+            return;
+        }
+
+        // 提取文字中的表情加以渲染
+        var msg = obj.msg;
+        var content = '';
+        while(msg.indexOf('[') > -1) {  // 其实更建议用正则将[]中的内容提取出来
+            var start = msg.indexOf('[');
+            var end = msg.indexOf(']');
+
+            content += '<span>'+msg.substr(0, start)+'</span>';
+            content += '<img src="image/emoji/emoji%20('+msg.substr(start+6, end-start-6)+').png">';
+            msg = msg.substr(end+1, msg.length);
+        }
+        content += '<span>'+msg+'</span>';
+
+        $('#messages').append(`
+        <li class='${obj.side}'>
+          <img src="${obj.img}">
+          <div>
+            <span>${obj.name}</span>
+            <p style="color: ${obj.color};">${content}</p>
+          </div>
+        </li>
+      `);
+        // 滚动条总是在最底部
+        $('#messages').scrollTop($('#messages')[0].scrollHeight);
+    })
     // 点击抖动图标
     $('#shake').click(() => {
         socket.emit('shake')
@@ -93,4 +134,30 @@ $(function() {
     $('#m').click(()=> {
         $('.selectBox').css('display', "none");
     });
+
+
+
+    const sendMsg = () => {
+        if($('#m').val() == '') {
+            alert('请输入内容！');
+            return false;
+        }
+        const color = $('#color').val() || '#000';
+        socket.emit('sendMsg', {
+            msg: $('#m').val(),
+            color: color,
+            type: 'text'
+        });
+        $('#m').val('');
+        return false;
+    }
+
+//    发送消息
+    $('#sub').click(sendMsg)
+    $('#m').onkeyup(ev => {
+        if (ev.which === 13) {
+            sendMsg()
+        }
+    })
+
 });
