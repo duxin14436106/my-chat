@@ -34,11 +34,11 @@ $(function() {
         alert('昵称重复，请重新设置');
         $('#name').val('')
     });
-
+    // 点击抖动图标
     $('#shake').click(() => {
         socket.emit('shake')
     })
-
+    // 点听服务端发来的抖动
     socket.on('shake', user =>{
         var data = new Date().toTimeString().substr(0, 8);
         $('#messages').append(`<p class='system'><span>${data}</span><br /><span>${user.name}发送了一个窗口抖动</span></p>`);
@@ -74,4 +74,23 @@ $(function() {
             $('.main').removeClass('shaking');
         }, 500);
     }
+
+    // 渲染表情
+    init();
+    function init() {
+        for(var i = 0; i < 141; i++) {
+            $('.emoji').append('<li id='+i+'><img src="image/emoji/emoji ('+(i+1)+').png"></li>');
+        }
+    }
+
+    // 显示表情
+    $('#smile').click(()=> {
+        $('.selectBox').css('display', "block");
+    });
+    $('#smile').dblclick((ev)=> {
+        $('.selectBox').css('display', "none");
+    });
+    $('#m').click(()=> {
+        $('.selectBox').css('display', "none");
+    });
 });

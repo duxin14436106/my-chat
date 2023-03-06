@@ -31,8 +31,13 @@ io.on('connection', (socket) => {
         })
         io.emit('loading all clients', usersInfo)//加载所有客户端进来的用户
     })
-
+    // 抖动
     socket.on('shake', () => {
+        // 自己
+        socket.emit('shake', {
+            name: '您'
+        });
+        // 除了自己的其他人
         socket.broadcast.emit('shake', {
             name: socket.nickname
         })

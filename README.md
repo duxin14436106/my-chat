@@ -36,6 +36,14 @@ io.on('connection', (socket) => {
     })
 })
 ```
+#### socket.emit方法：表示对自己客户端发送消息。
+```js
+io.on('connection', (socket) => {
+    socket.emit('shake', {
+        name: '您'
+    });
+})
+```
 
 #### socket.broadcast.emit(): 表示向除了自己以外的客户端发送消息。
     （比如：输入msg点击发送，只需要把msg通过服务器发送给其他客户端用于显示，而本地只需要将msg通过js代码添加到窗口，不用经过服务器了）
