@@ -10,48 +10,55 @@
 </head>
 <body>
 <div class="all">
+    <img class="my-logo" src="image/logo.png" alt="logo">
     <div class="name">
-        <!-- <h2>请输入你的昵称</h2> -->
-        <input type="text" id="name" placeholder="请输入昵称..." autocomplete="off">
-        <button id="nameBtn">确  定</button>
+        <div class="name-box">
+            <img id="profile" alt="头像">
+            <input type="text" id="name" placeholder="请输入昵称..." autocomplete="off">
+            <button id="nameBtn">确  定</button>
+        </div>
     </div>
     <div class="main">
-        <div class="header">
-            <img src="image/logo.jpg">
-            快乐再出发
-        </div>
-        <div id="container">
-            <div class="conversation">
-                <ul id="messages"></ul>
-                <form action="">
-                    <div class="edit">
-                        <input type="color" id="color" value="#000000">
-                        <i title="自定义字体颜色" id="font" class="fa fa-font">
-                        </i><i title="双击取消选择" class="fa fa-smile-o" id="smile">
-                    </i><i title="单击页面震动" id="shake" class="fa fa-bolt">
-                    </i>
-                        <input type="file" id="file">
-                        <i class="fa fa-picture-o" id="img"></i>
-                        <div class="selectBox">
-                            <div class="smile" id="smileDiv">
-                                <p>经典表情</p>
-                                <ul class="emoji"></ul>
+            <div class="header">
+                <img src="image/logo.jpg">
+                快乐再出发
+            </div>
+            <div id="container">
+                <div class="conversation">
+                    <ul id="messages"></ul>
+                    <form action="">
+                        <div class="edit">
+                            <input type="color" id="color" value="#000000">
+                            <i title="自定义字体颜色" id="font" class="fa fa-font">
+                            </i><i title="双击取消选择" class="fa fa-smile-o" id="smile">
+                        </i><i title="单击页面震动" id="shake" class="fa fa-bolt">
+                        </i>
+                            <input type="file" id="file">
+                            <i class="fa fa-picture-o" id="img"></i>
+                            <div class="selectBox">
+                                <div class="smile" id="smileDiv">
+                                    <p>经典表情</p>
+                                    <ul class="emoji"></ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- autocomplete禁用自动完成功能 -->
-                    <textarea id="m" autofocus></textarea>
-                    <button class="btn rBtn" id="sub">发送</button>
-                    <button class="btn" id="clear">关闭</button>
-                </form>
-            </div>
-            <div class="contacts">
-                <h1>在线人员(<span id="num">0</span>)</h1>
-                <ul id="users"></ul>
-                <p>当前无人在线哟~</p>
+                        <!-- autocomplete禁用自动完成功能 -->
+                        <textarea id="m" autofocus></textarea>
+                        <button class="btn rBtn" id="sub">发送</button>
+                        <button class="btn" id="clear">关闭</button>
+                    </form>
+                </div>
+                <div class="contacts">
+                    <h1>
+                        <span>在线人员(<span id="num">0</span>) </span>
+                        <i class="fa fa-list-ul hide" id="list"></i>
+                        <i class="fa fa-th" id="form"></i>
+                    </h1>
+                    <ul id="users"></ul>
+                    <p>当前无人在线哟~</p>
+                </div>
             </div>
         </div>
-    </div>
 </div>
 
 

@@ -3,16 +3,32 @@ $(function() {
     // 连接成功会触发服务器端的connection事件
     const socket = io();
 
-    // 点击输入昵称
-    $('#nameBtn').click(()=> {
-        var imgN = Math.floor(Math.random()*7)+1;
-        if($('#name').val().trim()!=='')
+    const login = ()=> {
+
+        if($('#name').val().trim()!==''){
             socket.emit('login', {
                 name: $('#name').val(),
-                img: 'image/allen' + imgN + '.png'
+                img: $('#profile')[0].src
             });
+        } else {
+            alert('请输入昵称')
+        }
+
         return false;
-    });
+    }
+    // 点击输入昵称
+    $('#nameBtn').click(login);
+    $('#name').keyup(ev => {
+        if (ev.which === 13) {
+            login()
+        }
+    })
+
+    socket.on('profile', () => {
+        const imgN = Math.floor(Math.random()*7)+1;
+        $('#profile').attr('src', `image/allen${imgN}.png`)
+    })
+
 
     // 登录成功，隐藏登录层
     socket.on('loginSuc', ()=> {
@@ -21,6 +37,7 @@ $(function() {
     socket.on('system', user => {
         const $user = `<p class="system">
                   <span>${new Date().toTimeString().substr(0, 8)}</span>
+                  <br>
                   <span>欢迎 <b>${user.name}</b> ${user.status}到该群聊</span>
                 </p>`;
         $('#messages').append($user);
@@ -135,6 +152,18 @@ $(function() {
         $('.selectBox').css('display', "none");
     });
 
+    $('#form').click(() => {
+        $('#users').parent().addClass('contacts-form')
+        $('#list').removeClass('hide')
+        $('#form').addClass('hide')
+    })
+
+    $('#list').click(() => {
+        $('#users').parent().removeClass('contacts-form')
+        $('#form').removeClass('hide')
+        $('#list').addClass('hide')
+    })
+
 
 
     const sendMsg = () => {
@@ -154,10 +183,41 @@ $(function() {
 
 //    发送消息
     $('#sub').click(sendMsg)
-    $('#m').onkeyup(ev => {
+    $('#m').keyup(ev => {
         if (ev.which === 13) {
             sendMsg()
         }
     })
 
+    // 用户点击发送表情
+    $('.emoji li img').click((ev)=> {
+        ev = ev || window.event;
+        var src = ev.target.src;
+        var emoji = src.replace(/\D*/g, '').substr(6, 8);
+        var old = $('#m').val();
+        $('#m').val(old+'[emoji'+emoji+']');
+        $('.selectBox').css('display', "none");
+    });
+
+//    上传图片
+    $('#file').change(function () {
+        var file = this.files[0];  // 上传单张图片
+        var reader = new FileReader();
+
+        //文件读取出错的时候触发
+        reader.onerror = function(){
+            console.log('读取文件失败，请重试！');
+        };
+        // 读取成功后
+        reader.onload = function() {
+            var src = reader.result;  // 读取结果
+            var img = '<img class="sendImg" src="'+src+'">';
+            socket.emit('sendMsg', {  // 发送
+                msg: img,
+                color: color,
+                type: 'img'
+            });
+        };
+        reader.readAsDataURL(file); // 读取为64位
+    })
 });

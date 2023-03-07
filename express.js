@@ -12,8 +12,10 @@ let users = [], // 存放用户的名字
 
 io.on('connection', (socket) => {
     // io.emit('loading all clients', usersInfo)//加载所有客户端进来的用户
+    // 随机分配头像
+    socket.emit('profile')
     socket.on('login', data => {
-        console.log('client data', data)
+        // console.log('client data', data)
         if (users.includes(data.name)) {
             socket.emit('loginError')
             return false
